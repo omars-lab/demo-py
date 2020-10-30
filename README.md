@@ -1,15 +1,12 @@
-# perf-py
+# demo-py
 
-A library that personally helps me understand the performance of common python code (and in turn, it might help you understand it too!)
+Collecting tools I use to demo in one place.
 
-![Python package](https://github.com/mr-uuid/perfpy/workflows/Python%20package/badge.svg)
+![Python package](https://github.com/omars-lab/demo-py/workflows/Python%20package/badge.svg)
 
 # Todo
-- [ ] Does mapping over an iterator perform better than using generators?
-- [ ] Does chunking a generator affect performance?
-- [ ] Does composing generators affect performance? 
-- [x] Make a table of the performance of each function ...
-    - [x] Open this up in a notebook!
+- [ ] Add more charts
+- [ ] Add an interactive time bar
 
 # Personal Reminders
 - To publish to pypi w/o an alpha version, push a commit with `Publish To PYPI` in its commit message.

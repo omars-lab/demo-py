@@ -1,20 +1,17 @@
-import pandas as pd
-import numpy as np
-import json
-import uuid
-import itertools
-import arrow
 import collections
 import io
-from typing import Mapping, Any, AnyStr, NamedTuple, Optional
+import itertools
+import json
+import uuid
+from typing import Any, AnyStr, Mapping, NamedTuple, Optional
 
-from IPython.core.display import display, HTML
-
-from IPython.display import display_javascript, display_html, Image, JSON, Pretty, Javascript, SVG, Markdown
-from IPython.core.display import display, HTML
 import ipywidgets as widgets
-
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from IPython.core.display import HTML, display
+from IPython.display import (JSON, SVG, Image, Javascript, Markdown, Pretty,
+                             display_html, display_javascript)
 
 # https://www.datacamp.com/community/tutorials/wordcloud-python
 
