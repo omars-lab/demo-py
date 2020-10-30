@@ -1,6 +1,28 @@
 # -*- coding: utf8 -*-
 
 from setuptools import setup, find_packages
+from setuptools.command.install import install
+from setuptools.command.develop import develop
+from subprocess import check_call
+
+# https: // stackoverflow.com/questions/20288711/post-install-script-with-python-setuptools
+
+class CustomDevelopCommand(develop):
+    """Custom Develop Command"""
+
+    def run(self):
+        develop.run(self)
+        print("Installing jupyter extension")
+        check_call("jupyter nbextension enable --py widgetsnbextension".split())
+
+
+class CustomInstallCommand(install):
+    """Custom Installation Command"""
+
+    def run(self):
+        install.run(self)
+        check_call("jupyter nbextension enable --py widgetsnbextension".split())
+
 
 with open("README.md") as fh:
     long_description = fh.read()
@@ -23,27 +45,21 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries',
     ],
+    cmdclass={
+        "develop": CustomDevelopCommand,
+        'install': CustomInstallCommand,
+    },
     # Packages and depencies
-    packages=find_packages(),
+    packages=find_packages("demopy"),
     install_requires=[
-        "attrs",
-        "pydantic",
-        "toolz",  # https://toolz.readthedocs.io/en/latest/api.html
-        "numpy",
-        "mpldatacursor",  # (https://github.com/joferkington/mpldatacursor)
-        "calmap",  # (https://github.com/martijnvermaat/calmap/blob/master/calmap/__init__.py)
-        "py2cytoscape", 
-        "pycandela",
-        "pygraphviz",
-        # 'jinja2',
-        # 'invoke>=0.13',
-        # 'unidecode',
-        # 'six',
+        "ipython",
+        "ipywidgets",
+        "pandas",
+        "matplotlib",
     ],
     extras_require={
         'dev': [
             # "nbconvert==5.5.0",
-            "ipython",
             "mypy",
             "pytest",
             "pytest-pep8",
@@ -55,6 +71,22 @@ setup(
             # 'coverage',
             # 'mock',
         ],
+        "graph": [
+            "py2cytoscape",
+            "pycandela",
+            "pygraphviz",
+        ],
+        "ext": [
+            "mpldatacursor",  #(https://github.com/joferkington/mpldatacursor)
+            "calmap",  #(https://github.com/martijnvermaat/calmap/blob/master/calmap/__init__.py)
+        ],
+        "toolz": [
+            "attrs",
+            "pydantic",
+            "toolz",  # https://toolz.readthedocs.io/en/latest/api.html
+            "numpy",
+            # 'jinja2',
+        ]
     },
     # Data files
     package_data={},

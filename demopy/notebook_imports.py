@@ -1,18 +1,82 @@
 import pandas as pd
+import numpy as np
 import json
 import uuid
 import itertools
 import arrow
 import collections
-
+import io
 from typing import Mapping, Any, AnyStr, NamedTuple, Optional
 
 from IPython.core.display import display, HTML
 
 from IPython.display import display_javascript, display_html, Image, JSON, Pretty, Javascript, SVG, Markdown
-# from IPython.display import display
 from IPython.core.display import display, HTML
 import ipywidgets as widgets
+
+import matplotlib.pyplot as plt
+
+# https://www.datacamp.com/community/tutorials/wordcloud-python
+
+def debug(x):
+    print(x)
+    return x
+
+
+highlight_css = {
+    "background-color": "yellow", 
+    "opacity": "0.75"
+}
+
+def construct_column_highlighting_function(column_name, css):
+    '''
+    highlight the maximum in a Series yellow.
+    '''
+    css = "; ".join([f"{k}: {v}" for k, v in css.items()])
+    def inner(column_of_data):
+        return [
+            css if column_of_data.name == column_name else ''
+            for x in np.arange(len(column_of_data))
+        ]
+    return inner
+
+
+def highlight_columns(df, *columns, css=highlight_css):
+    # https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html#Building-Styles-Summary
+    # Column wise ...
+    if len(columns) < 1:
+        return df.style
+
+    return highlight_columns(df, *columns[:-1], css=css).apply(
+        construct_column_highlighting_function(columns[-1], css),
+        axis=0
+    )
+    
+
+def bar_chart(values: dict, title="Chart", yaxis="y", xaxis="x", width_factor=60, height_factor=20):
+    # https://stackoverflow.com/questions/8598673/how-to-save-a-pylab-figure-into-in-memory-file-which-can-be-read-into-pil-image
+    fig = plt.figure(figsize=(width_factor, height_factor))
+    x = list(values.keys())
+    bar_num = np.arange(len(x))
+    y = list(values.values())
+    plt.bar(bar_num, y, alpha=0.5, align='center', width=0.5)
+    plt.xticks(bar_num, x)
+    # plt.ylabel(yaxis)
+    # plt.xlabel(xaxis)
+    # plt.title(title)
+    image = io.BytesIO()
+    plt.savefig(image, format="png")
+    image.seek(0)
+    plt.close(fig)
+    # plt.show(fig)
+    img = widgets.Image(
+        value=image.read(),
+        format='png',
+        width=125*width_factor,
+        height=125*height_factor
+    )
+    img.layout.margin = "0 0 0 0"
+    return img
 
 def button(text):
     return widgets.Checkbox(

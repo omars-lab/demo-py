@@ -40,4 +40,3 @@ df = pd.DataFrame([v for v in values if v])
 if columns:
     df.columns = columns[:len(df.columns)]
 print(df.to_csv(index=False), end="")
-
