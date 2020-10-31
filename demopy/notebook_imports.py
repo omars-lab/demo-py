@@ -105,10 +105,12 @@ def tab_with_content(content_dict):
         tab.set_title(i, title)
     return tab
 
+
 def set_id_for_dom_element_of_output_for_current_cell(_id):
     display(Javascript('console.log(element.get(0)); element.get(0).id = "{}";'.format(_id)))
 
-class RenderJSON(object):
+
+class InteractiveJSON(object):
     def __init__(self, json_data):
         if isinstance(json_data, dict):
             self.json_str = json.dumps(json_data)

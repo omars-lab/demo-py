@@ -33,7 +33,7 @@ setup(
     version="0.0.1",
     author='Omar Eid',
     author_email='contact.omar.eid@gmail.com',
-    url='https://github.com/mr-uuid/demopy',
+    url='https://github.com/omars-lab/demo-py',
     description='My Personal Demo Toolbox.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -56,6 +56,8 @@ setup(
         "ipywidgets",
         "pandas",
         "matplotlib",
+        "jupyter_contrib_nbextensions",
+        "spacy >= 2.3.2",
     ],
     extras_require={
         'dev': [
@@ -78,7 +80,8 @@ setup(
         ],
         "ext": [
             "mpldatacursor",  #(https://github.com/joferkington/mpldatacursor)
-            "calmap",  #(https://github.com/martijnvermaat/calmap/blob/master/calmap/__init__.py)
+            "calmap",  #(https://github.com/martijnvermaat/calmap/blob/master/calmap/__init__.py),
+            "ipython[notebook]",
         ],
         "toolz": [
             "attrs",
