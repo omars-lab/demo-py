@@ -6,18 +6,14 @@ from spacy.pipeline import EntityRuler
 from IPython.display import HTML
 
 # https://spacy.io/api/top-level#spacy.blank
-# https://spacy.io/usage/rule-based-matching#entityruler-usage
-
+# https://spacy.io/usage/rule-based-matching#entityruler-usag
 # https://spacy.io/usage/visualizers
 # https://spacy.io/usage/visualizers#ent
-# https://www.eggradients.com/
-
-# - [ ] Color of the date can vary ... if its near .. and its a todo (is and doable?) greenish, otherwise, redish ...
-# - [ ] Can I inject links into hashtags and stuff? it is html after all!
 
 
 def date_regex(prefix): 
     return {"TEXT": {"REGEX": f"{prefix}[0-9]{{4}}"}}
+
 
 def construct_task_nlp():
     nlp = spacy.blank("en")
@@ -107,6 +103,9 @@ def construct_task_nlp():
 
 
 def display_tasks(list_of_tasks):
+    """
+    # https://www.eggradients.com/
+    """
     colors = {
         "BACKLOG": "linear-gradient(90deg, #aa9cfc, #fc9ce7)",
         "POSTPONED-TIL": "linear-gradient(90deg, #aa9cfc, #fc9ce7)",
