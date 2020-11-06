@@ -50,7 +50,7 @@ setup(
         'install': CustomInstallCommand,
     },
     # Packages and depencies
-    packages=find_packages("demopy"),
+    packages=find_packages(),
     install_requires=[
         "ipython",
         "ipywidgets",
