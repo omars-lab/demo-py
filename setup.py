@@ -57,9 +57,13 @@ setup(
         "pandas",
         "matplotlib",
         "jupyter_contrib_nbextensions",
-        "spacy >= 2.3.2",
+        "spacy >= 2.3.2", # eventually move this over ... tpo parsing extras
     ],
     extras_require={
+        'parsing': [
+            'lark-parser'
+            "spacy >= 2.3.2",
+        ],
         'dev': [
             # "nbconvert==5.5.0",
             "mypy",

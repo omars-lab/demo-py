@@ -7,3 +7,5 @@
 - https://developers.google.com/sheets/api/guides/authorizing
 - https://developers.google.com/sheets/api/quickstart/python
 - https://stackoverflow.com/questions/14014283/curl-google-spreadsheet-as-csv
+
+
