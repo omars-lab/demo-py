@@ -56,27 +56,17 @@ def flatten_ors(ored):
     """
      {
             "or": [
-                {
-                    "simple_term": "POSTPARTUM"
-                },
+                { "simple_term": "POSTPARTUM" },
                 {
                     "or": [
-                        {
-                            "complex_term": "\"my newborn\""
-                        },
+                        { "complex_term": "\"my newborn\"" },
                         {
                             "or": [
-                                {
-                                    "complex_term": "\"my new born\""
-                                },
+                                { "complex_term": "\"my new born\"" },
                                 {
                                     "or": [
-                                        {
-                                            "simple_term": "TEST"
-                                        },
-                                        {
-                                            "simple_term": "BLAH"
-                                        }
+                                        { "simple_term": "TEST" },
+                                        { "simple_term": "BLAH" }
                                     ]
                                 }
                             ]
@@ -102,15 +92,9 @@ def is_or_node(n):
 def flatten_terms(terms):
     """ 
     [
-        {
-            "simple_term": "A"
-        },
-        {
-            "simple_term": "B"
-        },
-        {
-            "simple_term": "C"
-        }
+        { "simple_term": "A" },
+        { "simple_term": "B" },
+        { "simple_term": "C" }
     ]
     to
     ["A", "B", "C"]
@@ -151,21 +135,13 @@ class TreeToQueryStruct(Transformer):
             "near": [
                 {
                     "or": [
-                        {
-                            "simple_term": "A"
-                        },
-                        {
-                            "simple_term": "B"
-                        },
-                        {
-                            "simple_term": "C"
-                        }
+                        { "simple_term": "A" },
+                        { "simple_term": "B" },
+                        { "simple_term": "C" }
                     ]
                 },
                 "2",
-                {
-                    "simple_term": "B"
-                }
+                { "simple_term": "B" }
             ]
         }
         """
