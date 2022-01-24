@@ -1,4 +1,4 @@
-from demopy.notebook_imports import bar_chart
+from demopy.notebooks.common_imports import bar_chart
 import logging
 
 

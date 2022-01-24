@@ -7,21 +7,23 @@ from subprocess import check_call
 
 # https: // stackoverflow.com/questions/20288711/post-install-script-with-python-setuptools
 
-class CustomDevelopCommand(develop):
-    """Custom Develop Command"""
+# Todo ... figure out how to only do these ... if the notebooks extras is installed ...
 
-    def run(self):
-        develop.run(self)
-        print("Installing jupyter extension")
-        check_call("jupyter nbextension enable --py widgetsnbextension".split())
+# class CustomDevelopCommand(develop):
+#     """Custom Develop Command"""
+
+#     def run(self):
+#         develop.run(self)
+#         print("Installing jupyter extension")
+#         check_call("jupyter nbextension enable --py widgetsnbextension".split())
 
 
-class CustomInstallCommand(install):
-    """Custom Installation Command"""
+# class CustomInstallCommand(install):
+#     """Custom Installation Command"""
 
-    def run(self):
-        install.run(self)
-        check_call("jupyter nbextension enable --py widgetsnbextension".split())
+#     def run(self):
+#         install.run(self)
+#         check_call("jupyter nbextension enable --py widgetsnbextension".split())
 
 
 with open("README.md") as fh:
@@ -45,27 +47,29 @@ setup(
         'Programming Language :: Python',
         'Topic :: Software Development :: Libraries',
     ],
-    cmdclass={
-        "develop": CustomDevelopCommand,
-        'install': CustomInstallCommand,
-    },
+    # cmdclass={
+    #     "develop": CustomDevelopCommand,
+    #     'install': CustomInstallCommand,
+    # },
     # Packages and depencies
-    packages=find_packages(),
+    packages=find_packages(include=["demopy", "demopy.*"]),
     install_requires=[
-        "ipython",
-        "ipywidgets",
+        "typer",        
         "pandas",
-        "matplotlib",
-        "jupyter_contrib_nbextensions",
-        "spacy >= 2.3.2", # eventually move this over ... tpo parsing extras
     ],
     extras_require={
+        "notebooks": [
+            "matplotlib",
+            "ipython",
+            "ipywidgets",
+            "jupyter_contrib_nbextensions",
+            "spacy >= 2.3.2", # eventually move this over ... too parsing extras
+        ],
         'parsing': [
             'lark-parser'
             "spacy >= 2.3.2",
         ],
         'dev': [
-            # "nbconvert==5.5.0",
             "mypy",
             "pytest",
             "pytest-pep8",
@@ -76,6 +80,7 @@ setup(
             # 'pytest-cov',
             # 'coverage',
             # 'mock',
+            # "nbconvert==5.5.0",
         ],
         "graph": [
             "py2cytoscape",
@@ -100,7 +105,7 @@ setup(
     # Scripts
     entry_points={
         'console_scripts': [
-            'python-boilerplate = python_boilerplate.__main__:main'],
+            'my-puml = demopy.cli.puml:app'],
     },
     # Other configurations
     zip_safe=False,

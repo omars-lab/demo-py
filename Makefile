@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 MAKEFILE_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-ENV := perfpy
+ENV := demopy
 PIP := $(shell dirname ${CONDA_PYTHON_EXE})/../envs/${ENV}/bin/pip
 DISTRIBUTION_NAME = $(shell python setup.py --name)
 DISTRIBUTION_VERSION = $(shell python setup.py --version)
@@ -49,6 +49,7 @@ simulate.github.secret:
 	@echo 'PYPI_TOKEN='$$(cat secret.txt | base64)
 
 cli.example.download-google-sheet:
+	# todo ... get secrets from lastpass ...
 	python download-csv-from-google-sheets.py \
 	  '/Users/oeid/Downloads/project-id-0905112707509830376-028dc8bad02b.json' \
 	  '12lCPaKogTJx9d5GMZsG7VGI_eu-idFIPEZLoNpOHwyI' \
