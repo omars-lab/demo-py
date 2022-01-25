@@ -1,0 +1,37 @@
+@startuml
+!theme cerulean
+left to right direction
+
+'skinparam linetype polyline
+'skinparam linetype ortho
+skinparam package<<Layout>> {
+    borderColor Transparent
+    backgroundColor Transparent
+    fontColor Transparent
+    stereotypeFontColor Transparent
+}
+
+' https://forum.plantuml.net/3648/invisible-packages-improve-layout-diagrams-visible-packages
+' https://plantuml.com/component-diagram
+
+package As <<Layout>> {
+    rectangle A
+    rectangle AA
+}
+
+package Bs <<Layout>> {
+    rectangle B
+}
+
+package Cs <<Layout>> {
+    rectangle C
+    rectangle CC
+}
+
+A --> B : Knows
+B --> C : Knows
+AA --> CC : Owes
+A ..right.. AA: Same
+C ..right.. CC: Same
+
+@enduml

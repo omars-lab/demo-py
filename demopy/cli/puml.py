@@ -11,6 +11,7 @@ from pathlib import Path
 from demopy.puml import synchro
 from demopy.tools import clean_multiline_str
 from demopy.constants import DiagramType, DEFAULTS
+from demopy.puml import simple as simple_puml
 
 app = typer.Typer()
 
@@ -20,31 +21,14 @@ def _generate_url(label:str, puml: str, base_url, diagram_type):
 
 
 @app.command()
-def simple(base_url:str=DEFAULTS["url"], diagram_type:DiagramType=DEFAULTS["type"]):
+def simple(line:str, base_url:str=DEFAULTS["url"], diagram_type:DiagramType=DEFAULTS["type"]):
     """
     Simple English -> PlantUML Url.
     """
     typer.echo(
         _generate_url(
             "diagram",
-            clean_multiline_str(
-                """
-                @startuml
-                !theme cerulean
-                left to right direction
-                'skinparam linetype polyline
-                'skinparam linetype ortho
-
-                rectangle A
-                rectangle B
-                rectangle C
-
-                A --> B : Knows
-                B --> C : Knows
-                AA --> C : Owes
-                @enduml
-                """
-            ),
+            simple_puml.convert_to_puml(line),
             base_url,
             diagram_type
         )

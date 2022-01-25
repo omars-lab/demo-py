@@ -97,7 +97,7 @@ setup(
             "pydantic",
             "toolz",  # https://toolz.readthedocs.io/en/latest/api.html
             "numpy",
-            # 'jinja2',
+            # 'Jinja2', # https://jinja.palletsprojects.com/en/3.0.x/intro/
         ]
     },
     # Data files
