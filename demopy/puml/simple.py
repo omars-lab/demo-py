@@ -7,6 +7,7 @@ from jinja2 import Template
 # https://realpython.com/primer-on-jinja-templating/
 from demopy.tools import clean_multiline_str
 
+
 Relationship = namedtuple('Relationship', ['src', 'dst', 'rel', 'num'])
 
 
@@ -22,7 +23,8 @@ def parse_rels_from_line(simple_statement:str, line_number:int=1):
     ]
 
 
-def convert_to_puml(simple_statement:str) -> str:
+def convert_to_puml(simple_statement:str, resources:dict={}) -> str:
+    simple_statement = simple_statement.replace("\\n", "\n")
     rels = [
         rel
         for i, l in enumerate(simple_statement.split("\n"))
@@ -32,7 +34,7 @@ def convert_to_puml(simple_statement:str) -> str:
     return clean_multiline_str(
         "\n".join([
             header(),
-            define_resources_involved_in_rels(rels),
+            define_resources_involved_in_rels(rels, resources),
             define_rels(rels),
             define_same_links(rels),
             footer()
@@ -46,16 +48,38 @@ def header() -> str:
     !theme cerulean
     left to right direction
     
+    ' https://plantuml.com/stdlib
+    ' https://github.com/awslabs/aws-icons-for-plantuml#basic-usage
+    
+    !define AWSPuml https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v11.1/dist
+    !includeurl AWSPuml/AWSCommon.puml
+    !includeurl AWSPuml/AWSSimplified.puml
+    !includeurl AWSPuml/ApplicationIntegration/APIGateway.puml
+    !includeurl AWSPuml/Compute/Lambda.puml
+    !includeurl AWSPuml/Database/DynamoDB.puml
+    !includeurl AWSPuml/General/Users.puml
+    !includeurl AWSPuml/SecurityIdentityCompliance/Cognito.puml
+    !includeurl AWSPuml/Storage/SimpleStorageService.puml
+
+    ' Users(sources, "Events", "millions of users")
+    ' APIGateway(votingAPI, "Voting API", "user votes")
+    ' Cognito(userAuth, "User Authentication", "jwt to submit votes")
+    ' Lambda(generateToken, "User Credentials", "return jwt")
+    ' Lambda(recordVote, "Record Vote", "enter or update vote per user")
+    ' DynamoDB(voteDb, "Vote Database", "one entry per user")
+
+    ' https://plantuml.com/style-evolution
     'skinparam linetype polyline
     'skinparam linetype ortho
     skinparam package<<Layout>> {
-        borderColor Transparent
-        backgroundColor Transparent
-        fontColor Transparent
-        stereotypeFontColor Transparent
+        BorderColor Transparent
+        BackgroundColor Transparent
+        FontColor Transparent
+        TitleFontColor Transparent
+        StereotypeFontColor Transparent
     }
     """
-
+# TODO ... support bidirectional arrows ...
 
 def footer()->str:
     return "@enduml"
@@ -73,7 +97,7 @@ def define_rels(rels:List[Relationship]) -> str:
     t = Template(
     """
     {% for rel in rels %}
-    {{ rel.src * rel.num }} --> {{ rel.dst * rel.num }} : {{ rel.rel }}
+    {{rel.src}}{{rel.num}} --> {{rel.dst}}{{rel.num}} : {{rel.rel}}
     {% endfor %}
     """
     )
@@ -87,29 +111,46 @@ def define_same_links(rels:List[Relationship]) -> str:
     """
     {% for (node, combinations) in combinations_per_node.items() %}
     {% for (left, right) in combinations %}
-    {{ node * left }} ..right.. {{ node * right }}: Same
+    {{node}}{{left}} ..right.. {{node}}{{right}}: Same
     {% endfor %}
     {% endfor %}
     """
     )
     return t.render(combinations_per_node=combinations_per_node)
 
-def define_resources_involved_in_rels(rels:List[Relationship]):
+
+def define_resource(id, line, resources):
+    aws_resource_def = {x["id"]: x for x in resources.get("aws", [])}.get(id)
+    if aws_resource_def:
+        #  { "id": "sources", "type": "Users", "title": "Events", "note": "millions of users" },
+        return '{type}({id}{line}, "{title}", "{note}")'.format(**aws_resource_def, line=line)
+    return f"rectangle {id}{line}"
+
+
+def define_resources_involved_in_rels(rels:List[Relationship], resources:dict):
     lines_per_node = determine_node_repitition(rels)
     t = Template(
     """
     {% for node, lines in lines_per_node.items() %}
-    package {{node}}'s <<Layout>> {
+    package " " as {{node}} <<Layout>> {
         {% for line in lines %}
-        rectangle {{ node * line }} 
+         {{ define_resource(node, line, resources) }} 
         {% endfor %}
     }
     {% endfor %}
     """
     )
+    # https://stackoverflow.com/questions/6036082/call-a-python-function-from-jinja2
+    t.globals["define_resource"] = define_resource
+    t.globals["resources"] = resources
     return t.render(lines_per_node=lines_per_node)
 
 
 if __name__ == "__main__":
     print(convert_to_puml("a-[knows]->b-[knows]->c"))
     print(convert_to_puml("a -[knows]->b-[knows]->c\n   a     -[owes]->c"))
+    print(convert_to_puml(
+        """
+        """, 
+
+    ))

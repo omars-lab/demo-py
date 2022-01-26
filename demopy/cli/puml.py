@@ -1,11 +1,11 @@
 #!/usr/bin/env python3.7
 
-import imp
+import json
 import sys
 
 import typer
-from typer import echo as print
-from typing import TypeVar, Optional, Callable
+
+from typing import Optional, List
 from pathlib import Path
 
 from demopy.puml import synchro
@@ -20,15 +20,26 @@ def _generate_url(label:str, puml: str, base_url, diagram_type):
     return f'[{label}]({base_url}/{diagram_type}{content})'
 
 
+# "https://typer.tiangolo.com/tutorial/multiple-values/multiple-options/"
 @app.command()
-def simple(line:str, base_url:str=DEFAULTS["url"], diagram_type:DiagramType=DEFAULTS["type"]):
+def simple(
+        chain: Optional[List[str]] = typer.Option([]), 
+        resource_definitions:Optional[Path]=typer.Option(None), 
+        base_url:str=typer.Option(DEFAULTS["url"]), 
+        diagram_type:DiagramType=typer.Option(DEFAULTS["type"])
+    ):
     """
     Simple English -> PlantUML Url.
     """
+    if resource_definitions:
+        with open(resource_definitions) as fh:
+            custom_resources = json.load(fh)
+    else:
+        custom_resources = {}
     typer.echo(
         _generate_url(
             "diagram",
-            simple_puml.convert_to_puml(line),
+            simple_puml.convert_to_puml("\n".join(chain), custom_resources),
             base_url,
             diagram_type
         )
@@ -49,6 +60,7 @@ def generate_url(path:Path, base_url:str=DEFAULTS["url"], diagram_type:DiagramTy
         with open(path, "r") as fh:
             content = fh.read().strip()
     typer.echo(_generate_url(path.name, content, base_url, diagram_type.value))
+
 
 if __name__ == "__main__":
     app()

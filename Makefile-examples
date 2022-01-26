@@ -1,0 +1,14 @@
+
+example.cli.aws-diagram:
+	my-puml \
+		simple \
+		--resource-definitions /Users/omareid/Workspace/git/demo-py/test/examples/simple-defs.json \
+		--chain "sources -[invokes]-> userAuth -[invokes]-> generateToken" \
+		--chain "sources -[invokes]-> votingAPI -[invokes]-> recordVote -[invokes]-> voteDb"
+
+example.cli.download-google-sheet:
+	# todo ... get secrets from lastpass ...
+	python download-csv-from-google-sheets.py \
+	  '/Users/oeid/Downloads/project-id-0905112707509830376-028dc8bad02b.json' \
+	  '12lCPaKogTJx9d5GMZsG7VGI_eu-idFIPEZLoNpOHwyI' \
+	  'property-schema!A1:L'
