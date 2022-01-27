@@ -61,13 +61,6 @@ def header() -> str:
     !includeurl AWSPuml/SecurityIdentityCompliance/Cognito.puml
     !includeurl AWSPuml/Storage/SimpleStorageService.puml
 
-    ' Users(sources, "Events", "millions of users")
-    ' APIGateway(votingAPI, "Voting API", "user votes")
-    ' Cognito(userAuth, "User Authentication", "jwt to submit votes")
-    ' Lambda(generateToken, "User Credentials", "return jwt")
-    ' Lambda(recordVote, "Record Vote", "enter or update vote per user")
-    ' DynamoDB(voteDb, "Vote Database", "one entry per user")
-
     ' https://plantuml.com/style-evolution
     'skinparam linetype polyline
     'skinparam linetype ortho
@@ -120,10 +113,17 @@ def define_same_links(rels:List[Relationship]) -> str:
 
 
 def define_resource(id, line, resources):
-    aws_resource_def = {x["id"]: x for x in resources.get("aws", [])}.get(id)
-    if aws_resource_def:
+    awsdef = {x["id"]: x for x in resources.get("aws", [])}.get(id)
+    if awsdef:
+        awsdef["tooltip"] = awsdef["title"] if not awsdef.get("tooltip") else awsdef["tooltip"]
+        awsdef["title"] = (
+            awsdef["title"]
+            # Use title if link not defined or already expanded into link ...
+            if (not awsdef.get("link") or awsdef.get("title").startswith("[[")) 
+            else "[[{link}{{{tooltip}}} {title}]]".format(**awsdef)
+        )
         #  { "id": "sources", "type": "Users", "title": "Events", "note": "millions of users" },
-        return '{type}({id}{line}, "{title}", "{note}")'.format(**aws_resource_def, line=line)
+        return '{type}({id}{line}, "{title}", "{note}")'.format(**awsdef, line=line)
     return f"rectangle {id}{line}"
 
 
@@ -152,5 +152,4 @@ if __name__ == "__main__":
     print(convert_to_puml(
         """
         """, 
-
     ))

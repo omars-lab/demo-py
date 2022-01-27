@@ -1,10 +1,45 @@
 {
     "aws": [
-        { "id": "sources", "type": "Users", "title": "Events", "note": "millions of users" },
-        { "id": "votingAPI", "type": "APIGateway", "title": "Voting API", "note": "user votes" },
-        { "id": "userAuth", "type": "Cognito", "title": "User\\nAuthentication", "note": "jwt to submit votes" },
-        { "id": "generateToken", "type": "Lambda", "title": "User\\nCredentials", "note": "return jwt" },
-        { "id": "recordVote", "type": "Lambda", "title": "Record Vote", "note": "enter or update vote per user" },
-        { "id": "voteDb", "type": "DynamoDB", "title": "Vote Database", "note": "one entry per user" }
+        { 
+            "id": "sources", 
+            "type": "Users", 
+            "title": "Events", 
+            "note": "millions of users",
+            "link": "https://www.google.com"
+        },
+        { 
+            "id": "votingAPI", 
+            "type": "APIGateway", 
+            "title": "Voting API", 
+            "note": "user votes",
+            "link": "https://www.google.com"
+        },
+        { 
+            "id": "userAuth", 
+            "type": "Cognito", 
+            "title": "User\\nAuthentication", 
+            "note": "jwt to submit votes"
+        },
+        { 
+            "id": "generateToken", 
+            "type": "Lambda", 
+            "title": "User\\nCredentials", 
+            "note": "return jwt",
+            "link": "https://www.google.com"
+        },
+        { 
+            "id": "recordVote", 
+            "type": "Lambda", 
+            "title": "Record Vote", 
+            "note": "enter or update vote per user",
+            "link": "https://www.google.com"
+        },
+        { 
+            "id": "voteDb", 
+            "type": "DynamoDB", 
+            "title": "Vote Database", 
+            "note": "one entry per user",
+            "link": "https://www.google.com"
+        }
     ]
 }
