@@ -60,6 +60,8 @@ setup(
     extras_require={
         "notebooks": [
             "matplotlib",
+            "igraph",
+            "plotly==5.18.0", # https://plotly.com/python/getting-started/
             "ipython",
             "ipywidgets",
             "jupyter_contrib_nbextensions",

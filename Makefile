@@ -1,7 +1,8 @@
 SHELL := /bin/bash
 MAKEFILE_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ENV := demopy
-PIP := $(shell dirname ${CONDA_PYTHON_EXE})/../envs/${ENV}/bin/pip
+CONDA_HOME := $(shell which conda)
+PIP := $(shell dirname $(shell dirname ${CONDA_HOME}))/envs/${ENV}/bin/pip
 DISTRIBUTION_NAME = $(shell python setup.py --name)
 DISTRIBUTION_VERSION = $(shell python setup.py --version)
 
@@ -19,6 +20,9 @@ env.activate:
 
 install:
 	pip install -e .[dev]
+
+clean:
+	true
 
 lint:
 	flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics

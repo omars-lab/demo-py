@@ -4,7 +4,7 @@
             "id": "sources", 
             "type": "Users", 
             "title": "Events", 
-            "note": "millions of users",
+            "notes": "millions of users",
             "link": "https://www.google.com"
         },
         { 
