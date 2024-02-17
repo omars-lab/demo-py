@@ -60,12 +60,13 @@ setup(
     extras_require={
         "notebooks": [
             "matplotlib",
-            "igraph",
+            "igraph", # https://igraph.org/python/tutorial/0.9.8/install.html
             "plotly==5.18.0", # https://plotly.com/python/getting-started/
-            "ipython",
-            "ipywidgets",
-            "jupyter_contrib_nbextensions",
-            "spacy >= 2.3.2", # eventually move this over ... too parsing extras
+            "notebook", # https://jupyter.org/install
+            # "ipython", # https://docs.jupyter.org/en/latest/projects/architecture/content-architecture.html
+            "ipywidgets", # https://pypi.org/project/ipywidgets/
+            "jupyter_contrib_nbextensions", # https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/install.html
+            "spacy", # https://spacy.io/usage
         ],
         'parsing': [
             'lark-parser'
@@ -92,7 +93,7 @@ setup(
         "ext": [
             "mpldatacursor",  #(https://github.com/joferkington/mpldatacursor)
             "calmap",  #(https://github.com/martijnvermaat/calmap/blob/master/calmap/__init__.py),
-            "ipython[notebook]",
+            # "ipython[notebook]",
         ],
         "toolz": [
             "attrs",
@@ -100,6 +101,11 @@ setup(
             "toolz",  # https://toolz.readthedocs.io/en/latest/api.html
             "numpy",
             # 'Jinja2', # https://jinja.palletsprojects.com/en/3.0.x/intro/
+        ],
+        "chatgpt": [
+            "openai", # https://platform.openai.com/docs/api-reference?lang=python
+            "langchain", 
+            "langchain-openai" # https://python.langchain.com/docs/integrations/platforms/openai
         ]
     },
     # Data files
@@ -107,7 +113,8 @@ setup(
     # Scripts
     entry_points={
         'console_scripts': [
-            'my-puml = demopy.cli.puml:app'],
+            'my-puml = demopy.cli.puml:app'
+        ],
     },
     # Other configurations
     zip_safe=False,
